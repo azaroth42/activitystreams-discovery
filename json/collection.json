@@ -1,0 +1,18 @@
+
+// Top level Collection looks almost identical to a paged IIIF 
+// Collection, as a IIIF Collection *is* an AS2 Collection.
+{
+	"@context": "http://activitystreams/context.json",
+	"id": "https://data.getty.edu/iiif/discovery.json",
+	"type": "Collection",
+	"label": "Example Big Collection",
+	"total": 33000,
+	"first": {
+		"id": "https://data.getty.edu/iiif/discovery-1.json",
+		"type": "CollectionPage"
+	},
+	"last": {
+		"id": "https://data.getty.edu/iiif/discovery-10.json",
+		"type": "CollectionPage"
+	}
+}

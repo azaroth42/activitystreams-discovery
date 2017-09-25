@@ -1,0 +1,48 @@
+
+{
+	"@context": "http://activitystreams/context.json",
+	"id": "https://data.getty.edu/iiif/discovery-1.json",
+	"type": "CollectionPage",
+	"partOf": "https://data.getty.edu/iiif/discovery.json",
+	"next": {
+		"id": "https://data.getty.edu/iiif/discovery-2.json",
+		"type": "CollectionPage"
+	},
+	"items": [
+		{
+			"id": "http://data.getty.edu/iiif/discovery/event/196421",
+			"type": "Delete",
+			"object": {
+				"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
+				"type": "Manifest"
+			},
+			"startTime": "2017-09-25T20:00:00Z",
+			"endTime": "2017-09-25T20:00:01Z",
+			"published": "2017-09-26T00:00:00Z"
+		},
+		// ...
+		{
+			"id": "http://data.getty.edu/iiif/discovery/event/100001",
+			"type": "Update",
+			"object": {
+				"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
+				"type": "Manifest"
+			},
+			"startTime": "2017-09-19T20:00:00Z",
+			"endTime": "2017-09-19T20:01:00Z",
+			"published": "2017-09-20T00:00:00Z"
+		},
+		// ...
+		{
+			"id": "http://data.getty.edu/iiif/discovery/event/54627",
+			"type": "Create",
+			"object": {
+				"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
+				"type": "Manifest"
+			},
+			"startTime": "2017-06-07T08:00:00Z",
+			"endTime": "2017-06-07T08:00:30Z",
+			"published": "2017-06-08T00:00:00Z"
+		}		
+	]
+}

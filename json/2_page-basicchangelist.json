@@ -1,0 +1,34 @@
+
+// Level 1: Basic ChangeList Equivalent
+// Sorted by published date, from most recent to oldest
+// Only one entry per Manifest in the overall list
+
+{
+	"@context": "http://activitystreams/context.json",
+	"id": "https://data.getty.edu/iiif/discovery-1.json",
+	"type": "CollectionPage",
+	"partOf": "https://data.getty.edu/iiif/discovery.json",
+	"next": {
+		"id": "https://data.getty.edu/iiif/discovery-2.json",
+		"type": "CollectionPage"
+	},
+	"items": [
+		{
+			"type": "Update",
+			"object": {
+				"id": "https://data.getty.edu/iiif/museum/1876/manifest.json",
+				"type": "Manifest"
+			},
+			"published": "2017-09-20T00:00:00Z"
+		},
+		{
+			"type": "Create",
+			"object": {
+				"id": "https://data.getty.edu/iiif/museum/33092/manifest.json",
+				"type": "Manifest"
+			},
+			"published": "2017-09-20T00:00:00Z"
+		}
+		// ...		
+	]
+}
