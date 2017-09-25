@@ -77,7 +77,7 @@ Usage:  Record each time the list is crawled, stop crawling when a datestamp bef
 
 ## LDN
 
-[Linked Data Notifications](https://www.w3.org/TR/ldn/) allow for these notifications to be sent to and made available from an "inbox".
+[Linked Data Notifications](https://www.w3.org/TR/ldn/) allow for these notifications to be sent to and made available from an "inbox", and thus we would be consistent with section 3 of the charter around Notification.
 
 
 ## Linked Data Notifications: Subscription
