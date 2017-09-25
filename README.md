@@ -69,14 +69,19 @@ Usage:  Record each time the list is crawled, and stop crawling when a datestamp
 
 #### Level 2: Complete Change List
 
+At the most complex level, a log of all of the activities that have taken place can be recorded, with multiple events per resource.  This would include Deletes, allowing a synchronization process to remove resources as well as add them. The list might thus end up very long if there are many changes to resources, however this is infrequent.  This would also allow for the complete history of a resource to be reconstructed, if each version has an archived representation.
+
+Usage:  Record each time the list is crawled, stop crawling when a datestamp before the previous crawl time is encountered, and only process the most recent change per resource.
+
+* [Page: Complete Change List](/json/4_page-fullchangelist.json)
 
 ## LDN
 
-[Linked Data Notifications](https://www.w3.org/TR/ldn/)
+[Linked Data Notifications](https://www.w3.org/TR/ldn/) allow for these notifications to be sent to and made available from an "inbox".
 
 
 ## Linked Data Notifications: Subscription
 
 While there is [WebSub](https://www.w3.org/TR/websub/), this does not interoperate with LDN and is from a service oriented mindset. WebSub makes various requirements that are not appropriate for Notifications (you MUST send the entire contents of the resource that you have subscribed to) which prevents subscribing either to binary resources (you don't want the entire gigabyte TIFF) or or aggregation-level containers (you don't want every change, just the new one).
 
-
+A more LOD / LDP / LDN appropriate pattern would be to use a REST pattern with Containers, that allow subscription to the inbox, manage filtering and the callback endpoint.  One way to do this could be as [described here](https://docs.google.com/document/d/1JsQS1LVFt8wuJSYo_XsOzyP28pS8hfSLEhAC3BFuN6o/edit).
