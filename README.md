@@ -75,6 +75,16 @@ Usage:  Record each time the list is crawled, stop crawling when a datestamp bef
 
 * [Page: Complete Change List](/json/4_page-fullchangelist.json)
 
+
+#### Level 3:  External Activities
+
+Once there is a framework for recording and publishing activities, the next level of complexity would be to allow third parties to send activities that use the publisher's resources.  In particular, creating links to the resource or just that the resource was used.
+
+#### Level 4: Distributed System Synchronization
+
+Finally, and far beyond the requirements for IIIF Discovery, the same patterns scale to a full distributed transaction log system, along [these lines](https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying).
+
+
 ## Notifications of Change
 
 [Linked Data Notifications](https://www.w3.org/TR/ldn/) allow for these notifications to be sent to and made available from an "inbox", and thus we would be consistent with section 3 of the charter around Notification.
