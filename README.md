@@ -82,45 +82,71 @@ Usage:  Record each time the list is crawled, stop crawling when a datestamp bef
 
 #### Create
 
+Minimum Level: 0
+
 A resource came into existence. Before this time it did not exist, and the state of the resource is the first state.
 
 #### Update / Modify
+
+Minimum Level: 1
 
 A resource that was already created was changed.  There is a new state of the resource that replaces the previous state.  The previous state may be available at another URI.
 
 #### Delete
 
+Minimum Level: 2
+
 A resource that was already created was taken out of existence. After this time, the resource does not exist, and previous states may be available at other URIs.
+
 
 ### Multi-Resource Publisher Operations
 
+These operations are compositions of the above in terms of the effects on different resources, but should be treated as a single operation for the purpose of notification and replay.  These are more appropriate for true synchronization systems, rather than simple crawling and discovery.
+
 #### Copy
+
+Minimum Level: 4
 
 A source resource is duplicated to create a new target resource.
 
 #### Rename / Move
 
+Minimum Level: 4
+
 A source resource is duplicated to create a new target resource, and the original is deleted.
 
 #### Merge
+
+Minumum Level: 4
 
 Two or more source resources are combined to create a new target resource.  
 
 #### Split
 
+Minumum Level: 4
+
 A single source resource is divided to create multiple new target resources.
 
 ### Third Party Operations
 
+These operations are carried out by third parties, rather than the publisher.  As such they would be written to the Inbox of the resource as either a request to modify the resource, or just notification that the resource was used.
+
+
 #### Linked
+
+Minimum Level: 3
 
 A remote source resource has a new reference to the target local resource.
 
 #### Used
 
+Minimum Level: 3
+
 The target resource was used by the remote agent in some way.
 
 #### Replace
+
+Minimum Level: 4
 
 The third party is requesting that the publisher replace their copy of the target resource with the source resource.
 
