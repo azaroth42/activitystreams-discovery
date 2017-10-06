@@ -179,7 +179,7 @@ The source resource was removed from the target Collection.
 	"origin": {
 		"id": "https://data.getty.edu/iiif/museum/paintings/collection.json",
 		"type": "Collection"
-	}
+	},
 	"startTime": "2017-09-19T20:00:00Z"
 }
 ```
@@ -202,7 +202,7 @@ The source resource was duplicated to create or modify the target resource.  Thi
 	"target": {
 		"id": "https://data.getty.edu/iiif/publications/102314/manifest.json",
 		"type": "Manifest"
-	}
+	},
 	"startTime": "2017-09-19T20:00:00Z"
 }
 ```
@@ -224,7 +224,7 @@ The source resource is duplicated to create or modify the target resource, and t
 	"target": {
 		"id": "https://data.getty.edu/iiif/publications/102314/manifest.json",
 		"type": "Manifest"
-	}
+	},
 	"startTime": "2017-09-19T20:00:00Z"
 }
 ```
@@ -252,7 +252,7 @@ Two or more source resources were combined to create or modify the target resour
 	"target": {
 		"id": "https://data.getty.edu/iiif/museum/1726/manifest.json",
 		"type": "Manifest"
-	}
+	},
 	"startTime": "2017-09-19T20:00:00Z"
 }
 ```
@@ -280,7 +280,7 @@ A single source resource was divided to create or modify multiple target resourc
 			"id": "https://data.getty.edu/iiif/museum/2/manifest.json",
 			"type": "Manifest"
 		}
-	]
+	],
 	"startTime": "2017-09-19T20:00:00Z"
 }
 ```
