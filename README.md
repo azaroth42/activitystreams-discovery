@@ -82,73 +82,276 @@ Usage:  Record each time the list is crawled, stop crawling when a datestamp bef
 
 #### Create
 
-Minimum Level: 0
+Level: 0
 
-A resource came into existence. Before this time it did not exist, and the state of the resource is the first state.
+The object resource came into existence. Before this time it did not exist, and the state of the resource is the first state.
+
+```json
+{
+	"id": "http://data.getty.edu/iiif/discovery/event/54627",
+	"type": "Create",
+	"object": {
+		"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
+		"type": "Manifest"
+	},
+	"startTime": "2017-06-08T00:00:00Z"
+}
+```
+
 
 #### Update / Modify
 
-Minimum Level: 1
+Level: 1
 
 A resource that was already created was changed.  There is a new state of the resource that replaces the previous state.  The previous state may be available at another URI.
 
+```json
+{
+	"id": "http://data.getty.edu/iiif/discovery/event/100001",
+	"type": "Update",
+	"object": {
+		"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
+		"type": "Manifest"
+	},
+	"startTime": "2017-09-19T20:00:00Z"
+}
+```
+
 #### Delete
 
-Minimum Level: 2
+Level: 2
 
 A resource that was already created was taken out of existence. After this time, the resource does not exist, and previous states may be available at other URIs.
+
+```json
+{
+	"id": "http://data.getty.edu/iiif/discovery/event/8172645",
+	"type": "Delete",
+	"object": {
+		"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
+		"type": "Manifest"
+	},
+	"startTime": "2017-09-19T20:00:00Z"
+}
+```
 
 
 ### Multi-Resource Publisher Operations
 
 These operations are compositions of the above in terms of the effects on different resources, but should be treated as a single operation for the purpose of notification and replay.  These are more appropriate for true synchronization systems, rather than simple crawling and discovery.
 
+#### Add 
+
+Level: 4
+
+The source resource was added to the target Collection.
+
+```json
+{
+	"id": "http://data.getty.edu/iiif/discovery/event/123462",
+	"type": "Add",
+	"object": {
+		"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
+		"type": "Manifest"
+	},
+	"target": {
+		"id": "https://data.getty.edu/iiif/museum/paintings/collection.json",
+		"type": "Collection"
+	}
+	"startTime": "2017-09-19T20:00:00Z"
+}
+```
+
+#### Remove
+
+Level: 4
+
+The source resource was removed from the target Collection.
+
+```json
+{
+	"id": "http://data.getty.edu/iiif/discovery/event/123462",
+	"type": "Remove",
+	"object": {
+		"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
+		"type": "Manifest"
+	},
+	"origin": {
+		"id": "https://data.getty.edu/iiif/museum/paintings/collection.json",
+		"type": "Collection"
+	}
+	"startTime": "2017-09-19T20:00:00Z"
+}
+```
+
+
 #### Copy
 
 Minimum Level: 4
 
-A source resource is duplicated to create a new target resource.
+The source resource was duplicated to create or modify the target resource.  This activity is not a core ActivityStreams type.
+
+```json
+{
+	"id": "http://data.getty.edu/iiif/discovery/event/123462",
+	"type": "Copy",
+	"object": {
+		"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
+		"type": "Manifest"
+	},
+	"target": {
+		"id": "https://data.getty.edu/iiif/publications/102314/manifest.json",
+		"type": "Manifest"
+	}
+	"startTime": "2017-09-19T20:00:00Z"
+}
+```
 
 #### Rename / Move
 
 Minimum Level: 4
 
-A source resource is duplicated to create a new target resource, and the original is deleted.
+The source resource is duplicated to create or modify the target resource, and the original was deleted as part of the operation.
+
+```json
+{
+	"id": "http://data.getty.edu/iiif/discovery/event/123462",
+	"type": "Move",
+	"object": {
+		"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
+		"type": "Manifest"
+	},
+	"target": {
+		"id": "https://data.getty.edu/iiif/publications/102314/manifest.json",
+		"type": "Manifest"
+	}
+	"startTime": "2017-09-19T20:00:00Z"
+}
+```
 
 #### Merge
 
 Minumum Level: 4
 
-Two or more source resources are combined to create a new target resource.  
+Two or more source resources were combined to create or modify the target resource.  This activity is not a core ActivityStreams type.
+
+```json
+{
+	"id": "http://data.getty.edu/iiif/discovery/event/123462",
+	"type": "Merge",
+	"object": [
+		{
+			"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
+			"type": "Manifest"
+		},
+		{
+			"id": "https://data.getty.edu/iiif/museum/2/manifest.json",
+			"type": "Manifest"
+		}
+	],
+	"target": {
+		"id": "https://data.getty.edu/iiif/museum/1726/manifest.json",
+		"type": "Manifest"
+	}
+	"startTime": "2017-09-19T20:00:00Z"
+}
+```
 
 #### Split
 
 Minumum Level: 4
 
-A single source resource is divided to create multiple new target resources.
+A single source resource was divided to create or modify multiple target resources.
+
+```json
+{
+	"id": "http://data.getty.edu/iiif/discovery/event/123462",
+	"type": "Split",
+	"object": {
+		"id": "https://data.getty.edu/iiif/museum/1726/manifest.json",
+		"type": "Manifest"
+	},
+	"target": [
+		{
+			"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
+			"type": "Manifest"
+		},
+		{
+			"id": "https://data.getty.edu/iiif/museum/2/manifest.json",
+			"type": "Manifest"
+		}
+	]
+	"startTime": "2017-09-19T20:00:00Z"
+}
+```
 
 ### Third Party Operations
 
 These operations are carried out by third parties, rather than the publisher.  As such they would be written to the Inbox of the resource as either a request to modify the resource, or just notification that the resource was used.
 
 
-#### Linked
+#### Reference
 
 Minimum Level: 3
 
-A remote source resource has a new reference to the target local resource.
+A remote source resource has a new reference or link to the target local resource.
 
-#### Used
+```json
+{
+	"id": "http://data.getty.edu/iiif/discovery/event/8172645",
+	"type": "Reference",
+	"object": {
+		"id": "https://example.edu/iiif/9/manifest.json",
+		"type": "Manifest"
+	},
+	"target": {
+		"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
+		"type": "Manifest"
+	},
+	"startTime": "2017-09-19T20:00:00Z"
+}
+```
+
+
+#### Use
 
 Minimum Level: 3
 
 The target resource was used by the remote agent in some way.
+
+```json
+{
+	"id": "http://data.getty.edu/iiif/discovery/event/8172645",
+	"type": "Use",
+	"object": {
+		"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
+		"type": "Manifest"
+	},
+	"startTime": "2017-09-19T20:00:00Z"
+}
+```
 
 #### Replace
 
 Minimum Level: 4
 
 The third party is requesting that the publisher replace their copy of the target resource with the source resource.
+
+```json
+{
+	"id": "http://data.getty.edu/iiif/discovery/event/8172645",
+	"type": "Replace",
+	"object": {
+		"id": "https://example.edu/iiif/9/manifest.json",
+		"type": "Manifest"
+	},
+	"target": {
+		"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
+		"type": "Manifest"
+	},
+	"startTime": "2017-09-19T20:00:00Z"
+}
+```
 
 
 ## Notifications of Change
