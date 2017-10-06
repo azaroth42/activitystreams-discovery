@@ -14,7 +14,7 @@
 	},
 	"items": [
 		{
-			"type": "Create",
+			"type": "Update",
 			"object": 
 			{
 				"id": "https://data.getty.edu/iiif/museum/1/manifest.json",
@@ -22,12 +22,11 @@
 			}
 		},
 		{
-			"type": "Create",
+			"type": "Update",
 			"object": {
 				"id": "https://data.getty.edu/iiif/museum/2/manifest.json",
 				"type": "Manifest"
 			}
 		}
-		// ...
 	]
 }

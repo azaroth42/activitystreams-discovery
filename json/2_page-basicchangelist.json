@@ -22,7 +22,7 @@
 			"published": "2017-09-20T00:00:00Z"
 		},
 		{
-			"type": "Create",
+			"type": "Update",
 			"object": {
 				"id": "https://data.getty.edu/iiif/museum/33092/manifest.json",
 				"type": "Manifest"

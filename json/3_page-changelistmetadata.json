@@ -13,7 +13,7 @@
 	"items": [
 		{
 			"id": "http://data.getty.edu/iiif/discovery/event/196421",
-			"type": "Create",
+			"type": "Update",
 			"actor": "http://getty.edu/museum",
 			"instrument": "http://github.com/thegetty/iiif_museum_transformer",
 			"object": {
