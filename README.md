@@ -29,21 +29,24 @@ As scoped by the [IIIF Discovery charter](http://iiif.io/community/groups/discov
 
 ### List of Resources
 
-As IIIF uses the AS2 Collection model, a IIIF Collection is very close to an AS2 Collection of Resources already!  AS2 Collections for lists of this size will always be paged, however, and the contents in the pages.  Thus for any of the options that follow, the top resource will be a single Collection document.
+As IIIF uses the AS2 Collection model, a IIIF Collection is very close to an AS2 Collection of Resources already!  AS2 Collections for lists of this size will always be paged, however, and the contents in the pages.  Thus for all of the options that follow, the top resource will be a single, paged Collection document.
+
+The Collection does not directly contain any of the activities or resources, instead it refers to the `first` page of such a list.  The pages are ordered both from page to page by following `next` relationships, and internally within the page as the `items` list is also ordered.  The number of entries in each page is up to the implementer, and cannot be requested by the client.
 
 * [Collection](/json/collection.json)
 
 #### Too Simple
 
-The simplest possible page layout would be a list of Manifests, identical in structure to a IIIF Collection.  If we were going to recommend this, we should just use IIIF Collections directly.  It does not ramp up to a full activitystream well, but this level demonstrates the similarity of the AS2 approach with existing IIIF patterns.
+The simplest possible page layout would just be a list of Manifests, identical in structure to a IIIF Collection.  If we were going to recommend this, we would just use IIIF Collections directly.  It does not ramp up to a full activitystream well, but this level demonstrates the similarity of the AS2 approach with existing IIIF patterns.
 
 Usage:  Crawl the entire set of pages and dereference each manifest to see if it has changed.
 
 * [Page: Too Simple](/json/0_page-toosimple.json)
 
+
 #### Level 0: Basic Resource List
 
-However with the addition of just a little boilerplate in the JSON, we can be on the path towards a robust set of changes.  We add a "Create" activity wrapper around the Manifest, and do not set a date for when it was created.  The order of the manifests in the pages is unimportant, but each should only appear once (as it was only created once). In terms of optimization, it provides no additional benefit over the IIIF Collection pattern, but is compatible with a system where optimization is possible, such as the following.
+However with the addition of just a little boilerplate in the JSON, we can be on the path towards a robust set of changes.  We add an "Update" activity wrapper around the Manifest, and do not set a date for when it was created.  The order of the Manifests in the pages is unimportant, but each should only appear once. In terms of optimization, it provides no additional benefit over the IIIF Collection pattern, but is compatible with a system where optimization is possible, such as the following levels.  This is thus the minimum level for interoperability, but further levels are significant improvements in terms of efficiency.
 
 Usage:  Crawl the entire set of pages and dereference each manifest to see if it has changed.
 
@@ -52,10 +55,12 @@ Usage:  Crawl the entire set of pages and dereference each manifest to see if it
 
 #### Level 1: Basic Change List
 
-If we know dates, such as when the resource was created or modified, instead we can order the list by those dates, with the most recent activities occuring first.  Each Manifest 
-should still appear only once in the full list.  This could be accomplished with a IIIF Collection, if we were to add created and modified timestamps to the Manifests themselves.
+If we know dates, such as when the resource was created or updated, we should instead order the list by those dates, with the most recent activities occuring last.  Each Manifest 
+should still appear only once in the full list.  This could be accomplished with a IIIF Collection, if created and modified timestamps were part of the Manifests themselves.
 
-Usage: Record each time the list is crawled, and stop crawling when a datestamp before the previous crawl time is encountered.
+The rationale for crawling backwards is that the first pages, once finished, become static resources.  If the list were ordered from most recent to least, then either the pages would change their URIs, reducing the ability to cache them or the first page would be constantly changing size rather than the last page, which is more familiar.
+
+Usage: Record each time the list is crawled. Start from the `last` page and work backwards through the list until a datestamp before the previous time a crawl occurred is encountered.
 
 * [Page: Basic Change List](/json/2_page-basicchangelist.json)
 
@@ -63,41 +68,45 @@ Usage: Record each time the list is crawled, and stop crawling when a datestamp 
 
 Additional metadata can be added to the basic change list without affecting the overall crawl behavior.  This metadata can include who did the change, more information about when the change occured as opposed to when the change activity was published, and so forth.  This level (and subsequent) cannot be achieved using just IIIF Collections without significant extensions.
 
-Usage:  Record each time the list is crawled, and stop crawling when a datestamp before the previous crawl time is encountered.
+Usage: Record each time the list is crawled. Start from the `last` page and work backwards through the list until a datestamp before the previous time a crawl occurred is encountered.
 
-* [Page: Basic Change List](/json/3_page-changelistmetadata.json)
+* [Page: Change List with Extra Information](/json/3_page-changelistmetadata.json)
 
 #### Level 2: Complete Change List
 
-At the most complex level, a log of all of the activities that have taken place can be recorded, with multiple events per resource.  This would include Deletes, allowing a synchronization process to remove resources as well as add them. The list might thus end up very long if there are many changes to resources, however this is infrequent.  This would also allow for the complete history of a resource to be reconstructed, if each version has an archived representation.  This level cannot be achieved using IIIF Collections at all, as the deleted Manifest would have been deleted.
+At the most complex level, a log of all of the activities that have taken place can be recorded, with multiple events per resource.  This would include Deletes, allowing a synchronization process to remove resources as well as add them. The list might thus end up very long if there are many changes to resources, however this is typically infrequent in known IIIF community.  This would also allow for the complete history of a resource to be reconstructed, if each version has an archived representation.  This level cannot be achieved using IIIF Collections or the previous levels at all, as the deleted Manifest would have been deleted and not appear in the list.
 
-Usage:  Record each time the list is crawled, stop crawling when a datestamp before the previous crawl time is encountered, and only process the most recent change per resource, including deleting resources.
+Usage:  Record each time the list is crawled. Start from the `last` page and work backwards through the list until a datestamp before the previous time a crawl occurred is encountered. Only process the most recent change per resource, including deleting resources.
 
 * [Page: Complete Change List](/json/4_page-fullchangelist.json)
 
 
 #### Level 3:  External Activities
 
-Once there is a framework for recording and publishing activities, the next level of complexity would be to allow third parties to send activities that use the publisher's resources.  In particular, creating links to the resource or just that the resource was used.
+Once there is a framework for recording and publishing activities, the next level of complexity would be to allow third parties to send activities that use the publisher's resources.  In particular, creating links to the resource or just that the resource was used.  This requires both an inbox and an outbox -- the inbox allows requests to be delivered to the publisher, and the outbox is for the publisher's own events as above.  This is discussed below in the Notifications of Change section.
 
 #### Level 4: Distributed System Synchronization
 
-Finally, and far beyond the requirements for IIIF Discovery, the same patterns scale to a full distributed transaction log system, along [these lines](https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying).
+Finally, and far beyond the requirements for IIIF Discovery, the same patterns scale to a full distributed transaction log system, along [these lines](https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying).  This degree of scalability is encouraging that the approach is the correct one.
 
 
 ## Notifications of Change
 
-[Linked Data Notifications](https://www.w3.org/TR/ldn/) allow for these notifications to be sent to and made available from an "inbox", and thus we would be consistent with section 3 of the charter around Notification.
+[Linked Data Notifications](https://www.w3.org/TR/ldn/) allow for these notifications to be sent to and made available from an "inbox", and thus we would be consistent with section 3 of the charter around Notification.  Further, the [ActivityPub](https://www.w3.org/TR/activitypub/) specification introduces the additional notion of an "outbox".
 
-Sending Manifests to an Inbox is not a "notification", it's just moving data around. Thus this level is also not possible without the notion of activity. 
-
+Sending Manifests to an Inbox is not a "notification", it's just moving data around. Instead we send a description of the activity, which the reciever can process or not as it chooses.
+ 
 LDN provides a storage and publication mechanism, but clients are still expected to come and retrieve the set of changes in the same way as above.  Assuming that either (a) systems register their interest in a resource, and the publisher notifies them directly or (b) the publisher writes to the inbox, and the inbox then auto-forwards the notification to the subscribers ... then there needs to be a method of subscribing to have the changes pushed to a remote inbox.
 
 ### Linked Data Notifications: Subscription
 
 While there is [WebSub](https://www.w3.org/TR/websub/), this does not interoperate with LDN and is from a service oriented mindset. WebSub makes various requirements that are not appropriate for Notifications (you MUST send the entire contents of the resource that you have subscribed to) which prevents subscribing either to binary resources (you don't want the entire gigabyte TIFF) or or aggregation-level containers (you don't want every change, every time, just the new one).
 
+ActivityPub is a method for transferring the notifications and subscribing, but does not follow REST patterns. Instead it uses side effects associated with particular activities. For example, the side effect of recieving a "Follow" activity is to add the sender to the "followers" of the resource. A REST based approach would be to create the subscription resource within the followers container.
+
 A more LOD / LDP / LDN appropriate pattern would be to use a REST pattern with Containers, that allow subscription to the inbox, manage filtering and the callback endpoint.  One way to do this could be as [described here](https://docs.google.com/document/d/1JsQS1LVFt8wuJSYo_XsOzyP28pS8hfSLEhAC3BFuN6o/edit).
+
+For the purposes of IIIF discovery, the above decision is firmly in the Notification section of the charter and does not impact the publication of the Activitystreams Collections as resources.
 
 ---
 

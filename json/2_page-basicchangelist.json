@@ -1,10 +1,12 @@
 
 // Level 1: Basic ChangeList Equivalent
-// Sorted by published date, from most recent to oldest
+// Sorted by published date, from oldest to newest
 // Only one entry per Manifest in the overall list
 
 {
-	"@context": "http://activitystreams/context.json",
+	"@context": [
+		"http://iiif.io/api/presentation/3/context.json",
+		"https://www.w3.org/ns/activitystreams"],
 	"id": "https://data.getty.edu/iiif/discovery-1.json",
 	"type": "CollectionPage",
 	"partOf": "https://data.getty.edu/iiif/discovery.json",
@@ -27,7 +29,7 @@
 				"id": "https://data.getty.edu/iiif/museum/33092/manifest.json",
 				"type": "Manifest"
 			},
-			"published": "2017-09-20T00:00:00Z"
+			"published": "2017-09-21T00:00:00Z"
 		}
 		// ...		
 	]

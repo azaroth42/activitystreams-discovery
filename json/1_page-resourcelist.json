@@ -1,10 +1,10 @@
-
-// But instead we collect activities ...
-// Level 0: Collection of Creations, no sorting.
+// Level 0: Collection of Updates, no sorting.
 // == ResourceList
 
 {
-	"@context": "http://activitystreams/context.json",
+	"@context": [
+		"http://iiif.io/api/presentation/3/context.json",
+		"https://www.w3.org/ns/activitystreams"],
 	"id": "https://data.getty.edu/iiif/discovery-1.json",
 	"type": "CollectionPage",
 	"partOf": "https://data.getty.edu/iiif/discovery.json",
